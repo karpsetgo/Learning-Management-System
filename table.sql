@@ -64,3 +64,23 @@ CREATE TABLE enrollments (
         REFERENCES courses(course_id)
 );
 
+CREATE TABLE assignments (
+    assignment_id NUMBER PRIMARY KEY,
+    course_id NUMBER,
+    due_date DATE,
+    max_score NUMBER CHECK (max_score > 0),
+    CONSTRAINT fk_assign_course FOREIGN KEY (course_id)
+        REFERENCES courses(course_id)
+);
+
+CREATE TABLE submissions (
+    submission_id NUMBER PRIMARY KEY,
+    assignment_id NUMBER,
+    student_id NUMBER,
+    submitted_date DATE,
+    score NUMBER CHECK (score >= 0),
+    CONSTRAINT fk_sub_assign FOREIGN KEY (assignment_id)
+        REFERENCES assignments(assignment_id),
+    CONSTRAINT fk_sub_student FOREIGN KEY (student_id)
+        REFERENCES students(student_id)
+);
